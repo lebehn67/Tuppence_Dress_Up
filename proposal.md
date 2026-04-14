@@ -1,41 +1,43 @@
-# Title
+# Tuppence Dress Up
 
 ## Repository
-<Link to your project's public GitHub respository>
+https://github.com/lebehn67/Tuppence_Dress_Up
 
 ## Description
-1-2 sentence description of what it will do and how it relevant to media and digital arts.
+This project will be a dress up game for a character I have created. The program will display Tuppence and enable the player to choose from hats, blouses, bottoms, and shoes to create her outfit
 
 ## Features
 - Feature 1
-	- Short explaination of how it will be executed.
+	- display Tuppence 
 - Feature 2
-	- Short explaination of how it will be executed.
-- Feature N 
-	- Short explaination of how it will be executed.
+	- Display clickable clothing options for her to wear
+- Feature 3
+    - Generate saveable image 
 
 ## Challenges
-- Short sentence of any skill or topic that needs to be learnt or researched.
-- Short sentence of any skill or topic that needs to be learnt or researched.
-- Short sentence of any skill or topic that needs to be learnt or researched.
+- I will need to learn to display multiple and/or clickable images
+- I will learn to generate a saveable image
+- I will need to draw the clothing
+
 
 ## Outcomes
 Ideal Outcome:
-- Briefly describe what is the ideal outcome?
+- An interchangeable Dress-up game with three choices for each type of clothing  icluding blouses, coats or sweaters, skirts, pants, socks, shoes, and hats; and settings with the ability to download an image of the final design 
 
 Minimal Viable Outcome:
-- Briefly describe the bare essential for a good working outcome?
+- An inerchangeable Dress-up game with options for the top already paired with a sweater or coat, bottoms already paired with shoes and socks, and hat options. A downloadable version is not required for this as people could just screenshot
 
 ## Milestones
 
 - Week 1
-  1. Goal 1
-  2. Goal 2
+  1. pygame resources gathered
+  2. button interface
 
 - Week 2
-  1. Goal 1
-  2. Goal 2
+  1. Hats and tops png's
+  2. objects added to game
+  3. download option added
 
 - Week N (Final)
-  1. Goal 1
-  2. Goal 2
+  1. Skirts and shoes png's
+  2. debugging done
