@@ -77,15 +77,15 @@ def draw_game(
     screen.fill((255, 200, 200))
 
     # DRAW CHARACTER
-    screen.blit(body, (250, 100))
+    screen.blit(body, (150, -150))
 
     # DRAW CURRENT DRESS
     if current_dress:
-        screen.blit(current_dress, (250, 100))
+        screen.blit(current_dress, (150, -150))
 
     # DRAW CURRENT SHOES
     if current_shoes:
-        screen.blit(current_shoes, (250, 100))
+        screen.blit(current_shoes, (150, -150))
 
     # DRAW DRESS BUTTONS
     for button in dress_buttons:
@@ -104,7 +104,7 @@ def main():
 
     pygame.init()
 
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((700, 850))
     pygame.display.set_caption("Tuppence Dress Up")
 
     clock = pygame.time.Clock()
