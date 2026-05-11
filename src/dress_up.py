@@ -3,12 +3,10 @@ import pygame
 
 # LOAD IMAGES
 def load_images():
-    background = [
-        pygame.transform.scale(
-            pygame.image.load("src/images/Background.png").convert(),
-            (1410, 850)
-        )
-    ]
+    background = pygame.transform.scale(
+        pygame.image.load("src/images/Background.png").convert(),
+        (700, 850)
+    )
 
     body = pygame.image.load("src/images/Base.png").convert_alpha()
 
@@ -35,94 +33,77 @@ def load_images():
 def handle_events(
     dress_buttons,
     shoe_buttons,
-    background_buttons,
     tights_buttons,
     dresses,
     shoes,
-    background,
     tights,
     current_dress,
     current_shoes,
-    current_background,
-    save_button,
-    current_tights
+    current_tights,
+    save_button
 ):
     running = True
 
     for event in pygame.event.get():
 
-        # CLOSE WINDOW
         if event.type == pygame.QUIT:
             running = False
 
-        # MOUSE CLICK
         if event.type == pygame.MOUSEBUTTONDOWN:
 
-            # SAVE BUTTON
+            # SAVE
             if save_button.collidepoint(event.pos):
-                filename = "outfit.png"
-                pygame.image.save(pygame.display.get_surface(), filename)
-                print("Outfit saved as", filename)
+                pygame.image.save(pygame.display.get_surface(), "outfit.png")
+                print("Outfit saved as outfit.png")
 
-            # DRESS BUTTONS
-            for i in range(len(dress_buttons)):
-                if dress_buttons[i].collidepoint(event.pos):
+            # DRESSES
+            for i, button in enumerate(dress_buttons):
+                if button.collidepoint(event.pos):
                     current_dress = dresses[i]
 
-            # SHOE BUTTONS
-            for i in range(len(shoe_buttons)):
-                if shoe_buttons[i].collidepoint(event.pos):
+            # SHOES
+            for i, button in enumerate(shoe_buttons):
+                if button.collidepoint(event.pos):
                     current_shoes = shoes[i]
 
-            # BACKGROUND BUTTONS
-            for i in range(len(background_buttons)):
-                if background_buttons[i].collidepoint(event.pos):
-                    current_background = background[i]
-
-            # TIGHTS BUTTONS
+            # TIGHTS TOGGLE
             for button in tights_buttons:
                 if button.collidepoint(event.pos):
                     current_tights = None if current_tights else tights
 
-    return (
-        running,
-        current_dress,
-        current_shoes,
-        current_background,
-        current_tights
-    )
+    return running, current_dress, current_shoes, current_tights
 
 
 # DRAW EVERYTHING
 def draw_game(
     screen,
+    background,
     body,
     current_dress,
     current_shoes,
-    current_background,
     current_tights,
     dress_buttons,
     shoe_buttons,
-    background_buttons,
     tights_buttons,
-    save_button
+    save_button,
+    dress_labels,
+    shoe_labels,
+    tights_label
 ):
-    # BACKGROUND
-    if current_background:
-        screen.blit(current_background, (-700, 0))
 
-    # CHARACTER BASE
+    # BACKGROUND
+    screen.blit(background, (0, 0))
+
+    # BASE CHARACTER
     screen.blit(body, (150, -270))
 
-    # TIGHTS
+    # LAYERS
     if current_tights:
         screen.blit(current_tights, (150, -270))
 
-    # DRESS
     if current_dress:
         screen.blit(current_dress, (150, -270))
 
-    # SHOES
     if current_shoes:
         screen.blit(current_shoes, (150, -270))
 
@@ -140,9 +121,22 @@ def draw_game(
 
     # SAVE BUTTON
     pygame.draw.rect(screen, (209, 82, 137), save_button)
-    font = pygame.font.SysFont(None, 24)
-    text = font.render("SAVE", True, (255, 255, 255))
-    screen.blit(text, (save_button.x + 30, save_button.y + 10))
+
+    font_small = pygame.font.SysFont(None, 24)
+    save_text = font_small.render("SAVE", True, (255, 255, 255))
+    screen.blit(save_text, (save_button.x + 30, save_button.y + 10))
+
+    # LABELS ON BUTTONS
+    font = pygame.font.SysFont(None, 20)
+
+    for button, label in zip(dress_buttons, dress_labels):
+        screen.blit(label, (button.x + 25, button.y + 10))
+
+    for button, label in zip(shoe_buttons, shoe_labels):
+        screen.blit(label, (button.x + 25, button.y + 10))
+
+    for button in tights_buttons:
+        screen.blit(tights_label, (button.x + 30, button.y + 10))
 
     pygame.display.update()
 
@@ -153,16 +147,14 @@ def main():
 
     screen = pygame.display.set_mode((700, 850))
     pygame.display.set_caption("Tuppence Dress Up")
-
     clock = pygame.time.Clock()
 
-    # LOAD ASSETS
+    # ASSETS
     body, dresses, shoes, background, tights = load_images()
 
-    # CURRENT STATE
+    # STATE
     current_dress = None
     current_shoes = None
-    current_background = background[0]
     current_tights = None
 
     # BUTTONS
@@ -173,14 +165,6 @@ def main():
         pygame.Rect(50, 200, 80, 40)
     ]
 
-    background_buttons = [
-        pygame.Rect(250, 50, 80, 40)
-    ]
-
-    tights_buttons = [
-        pygame.Rect(250, 120, 80, 40)
-    ]
-
     shoe_buttons = [
         pygame.Rect(150, 50, 80, 40),
         pygame.Rect(150, 100, 80, 40),
@@ -188,41 +172,51 @@ def main():
         pygame.Rect(150, 200, 80, 40)
     ]
 
+    tights_buttons = [
+        pygame.Rect(250, 120, 80, 40)
+    ]
+
     save_button = pygame.Rect(50, 260, 120, 40)
 
-    # GAME LOOP
+    # LABELS
+    font = pygame.font.SysFont(None, 20)
+
+    dress_labels = [font.render(f"Dress{i+1}", True, (255, 255, 255)) for i in range(4)]
+    shoe_labels = [font.render(f"Shoes{i+1}", True, (255, 255, 255)) for i in range(4)]
+    tights_label = font.render("Tights", True, (255, 255, 255))
+
+    # LOOP
     running = True
 
     while running:
 
-        running, current_dress, current_shoes, current_background, current_tights = handle_events(
+        running, current_dress, current_shoes, current_tights = handle_events(
             dress_buttons,
             shoe_buttons,
-            background_buttons,
             tights_buttons,
             dresses,
             shoes,
-            background,
             tights,
             current_dress,
             current_shoes,
-            current_background,
-            save_button,
-            current_tights
+            current_tights,
+            save_button
         )
 
         draw_game(
             screen,
+            background,
             body,
             current_dress,
             current_shoes,
-            current_background,
             current_tights,
             dress_buttons,
             shoe_buttons,
-            background_buttons,
             tights_buttons,
-            save_button
+            save_button,
+            dress_labels,
+            shoe_labels,
+            tights_label
         )
 
         clock.tick(60)
