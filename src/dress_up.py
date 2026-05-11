@@ -5,14 +5,27 @@ import pygame
 def load_images():
 
     body = pygame.image.load("src/images/Base.png").convert_alpha()
+    tights = pygame.image.load("src/images/Tights.png")
+    dresses = [
+        pygame.image.load("src/images/Dress1.png")
+        pygame.image.load("src/images/Dress2.png")
+        pygame.image.load("src/images/Dress3.png")
+        pygame.image.load("src/images/Dress4.png")
+    ]
+    
+    shoes = [
+        pygame.image.load("src/images/Shoes1.png")
+        pygame.image.load("src/images/Shoes2.png")
+        pygame.image.load("src/images/Shoes3.png")
+        pygame.image.load("src/images/Shoes4.png")
+        ]
 
-    dress1 = pygame.image.load("src/images/Dress1.png").convert_alpha()
 
-    return body, dress1
+    return body, dresses, shoes, tights
 
 
 # HANDLE EVENTS
-def handle_events(dress_button, dress1, current_dress):
+def handle_events(dress_button, dresses, current_dress):
 
     running = True
 
@@ -27,7 +40,7 @@ def handle_events(dress_button, dress1, current_dress):
 
             if dress_button.collidepoint(event.pos):
 
-                current_dress = dress1
+                current_dress = dresses
 
     return running, current_dress
 
@@ -63,7 +76,7 @@ def main():
     clock = pygame.time.Clock()
 
     # LOAD IMAGES
-    body, dress1 = load_images()
+    body, dresses = load_images()
 
     # CURRENT CLOTHES
     current_dress = None
