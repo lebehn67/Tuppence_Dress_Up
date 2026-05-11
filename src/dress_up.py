@@ -5,27 +5,35 @@ import pygame
 def load_images():
 
     body = pygame.image.load("src/images/Base.png").convert_alpha()
-    tights = pygame.image.load("src/images/Tights.png")
+
+    tights = pygame.image.load("src/images/Tights.png").convert_alpha()
+
     dresses = [
-        pygame.image.load("src/images/Dress1.png")
-        pygame.image.load("src/images/Dress2.png")
-        pygame.image.load("src/images/Dress3.png")
-        pygame.image.load("src/images/Dress4.png")
+        pygame.image.load("src/images/Dress1.png").convert_alpha(),
+        pygame.image.load("src/images/Dress2.png").convert_alpha(),
+        pygame.image.load("src/images/Dress3.png").convert_alpha(),
+        pygame.image.load("src/images/Dress4.png").convert_alpha()
     ]
-    
+
     shoes = [
-        pygame.image.load("src/images/Shoes1.png")
-        pygame.image.load("src/images/Shoes2.png")
-        pygame.image.load("src/images/Shoes3.png")
-        pygame.image.load("src/images/Shoes4.png")
-        ]
+        pygame.image.load("src/images/Shoes1.png").convert_alpha(),
+        pygame.image.load("src/images/Shoes2.png").convert_alpha(),
+        pygame.image.load("src/images/Shoes3.png").convert_alpha(),
+        pygame.image.load("src/images/Shoes4.png").convert_alpha()
+    ]
 
-
-    return body, dresses, shoes, tights
+    return body, dresses, shoes
 
 
 # HANDLE EVENTS
-def handle_events(dress_button, dresses, current_dress):
+def handle_events(
+    dress_buttons,
+    shoe_buttons,
+    dresses,
+    shoes,
+    current_dress,
+    current_shoes
+):
 
     running = True
 
@@ -38,28 +46,54 @@ def handle_events(dress_button, dresses, current_dress):
         # MOUSE CLICK
         if event.type == pygame.MOUSEBUTTONDOWN:
 
-            if dress_button.collidepoint(event.pos):
+            # CHECK DRESS BUTTONS
+            for i in range(len(dress_buttons)):
 
-                current_dress = dresses
+                if dress_buttons[i].collidepoint(event.pos):
 
-    return running, current_dress
+                    current_dress = dresses[i]
+
+            # CHECK SHOE BUTTONS
+            for i in range(len(shoe_buttons)):
+
+                if shoe_buttons[i].collidepoint(event.pos):
+
+                    current_shoes = shoes[i]
+
+    return running, current_dress, current_shoes
 
 
 # DRAW EVERYTHING
-def draw_game(screen, body, current_dress, dress_button):
+def draw_game(
+    screen,
+    body,
+    current_dress,
+    current_shoes,
+    dress_buttons,
+    shoe_buttons
+):
 
     # BACKGROUND
     screen.fill((255, 200, 200))
 
-    # BODY
+    # DRAW CHARACTER
     screen.blit(body, (250, 100))
 
-    # DRESS
+    # DRAW CURRENT DRESS
     if current_dress:
         screen.blit(current_dress, (250, 100))
 
-    # BUTTON
-    pygame.draw.rect(screen, (0, 0, 255), dress_button)
+    # DRAW CURRENT SHOES
+    if current_shoes:
+        screen.blit(current_shoes, (250, 100))
+
+    # DRAW DRESS BUTTONS
+    for button in dress_buttons:
+        pygame.draw.rect(screen, (200, 0, 200), button)
+
+    # DRAW SHOE BUTTONS
+    for button in shoe_buttons:
+        pygame.draw.rect(screen, (0, 0, 200), button)
 
     # UPDATE SCREEN
     pygame.display.update()
@@ -76,23 +110,41 @@ def main():
     clock = pygame.time.Clock()
 
     # LOAD IMAGES
-    body, dresses = load_images()
+    body, dresses, shoes = load_images()
 
-    # CURRENT CLOTHES
+    # CURRENT OUTFIT
     current_dress = None
+    current_shoes = None
 
-    # BUTTONS
-    dress_button = pygame.Rect(50, 50, 100, 50)
+    # DRESS BUTTONS
+    dress_buttons = [
+        pygame.Rect(50, 50, 80, 40),
+        pygame.Rect(50, 100, 80, 40),
+        pygame.Rect(50, 150, 80, 40),
+        pygame.Rect(50, 200, 80, 40)
+    ]
 
+    # SHOE BUTTONS
+    shoe_buttons = [
+        pygame.Rect(150, 50, 80, 40),
+        pygame.Rect(150, 100, 80, 40),
+        pygame.Rect(150, 150, 80, 40),
+        pygame.Rect(150, 200, 80, 40)
+    ]
+
+    # GAME LOOP
     running = True
 
     while running:
 
         # HANDLE INPUT
-        running, current_dress = handle_events(
-            dress_button,
-            dress1,
-            current_dress
+        running, current_dress, current_shoes = handle_events(
+            dress_buttons,
+            shoe_buttons,
+            dresses,
+            shoes,
+            current_dress,
+            current_shoes
         )
 
         # DRAW FRAME
@@ -100,12 +152,17 @@ def main():
             screen,
             body,
             current_dress,
-            dress_button
+            current_shoes,
+            dress_buttons,
+            shoe_buttons
         )
 
         clock.tick(60)
 
     pygame.quit()
+
+
+# START GAME
 
 
 if __name__ == "__main__":
