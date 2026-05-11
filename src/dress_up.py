@@ -5,7 +5,7 @@ import pygame
 def load_images():
     background = pygame.transform.scale(
         pygame.image.load("src/images/Background.png").convert(),
-        (700, 850)
+        (1210, 850)
     )
 
     body = pygame.image.load("src/images/Base.png").convert_alpha()
@@ -92,7 +92,7 @@ def draw_game(
 ):
 
     # BACKGROUND
-    screen.blit(background, (0, 0))
+    screen.blit(background, (-500, 0))
 
     # BASE CHARACTER
     screen.blit(body, (150, -270))
