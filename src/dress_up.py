@@ -37,7 +37,7 @@ def handle_events(
     dress_buttons,
     shoe_buttons,
     background_buttons,
-    tights_buttons,
+    tights_button,
     dresses,
     shoes,
     background,
@@ -80,11 +80,10 @@ def handle_events(
                     current_background = background[i]
             
             # CHECK TIGHTS BUTTONS
-            for i in range(len(tights_buttons)):
+            for button in tights_button:
+                if button.collidepoint(event.pos):
+                    current_tights = None if current_tights else tights
 
-                if tights_buttons[i].collidepoint(event.pos):
-
-                    current_tights = tights[i]
 
     return (
         running,
@@ -113,32 +112,32 @@ def draw_game(
         screen.blit(current_background, (-700, 0))
 
     # DRAW CHARACTER
-    screen.blit(body, (150, -150))
+    screen.blit(body, (150, -270))
 
     # DRAW CURRENT TIGHTS
     if current_tights:
-        screen.blit(current_tights, (150, -150))
+        screen.blit(current_tights, (150, -270))
     
     # DRAW CURRENT DRESS
     if current_dress:
-        screen.blit(current_dress, (150, -150))
+        screen.blit(current_dress, (150, -270))
 
     # DRAW CURRENT SHOES
     if current_shoes:
-        screen.blit(current_shoes, (150, -150))
+        screen.blit(current_shoes, (150, -270))
 
     # DRAW DRESS BUTTONS
     for button in dress_buttons:
-        pygame.draw.rect(screen, (200, 0, 200), button)
+        pygame.draw.rect(screen, (119, 49, 46), button)
 
     # DRAW SHOE BUTTONS
     for button in shoe_buttons:
-        pygame.draw.rect(screen, (0, 0, 200), button)
+        pygame.draw.rect(screen, (84, 14, 14), button)
 
 
     # DRAW TIGHTS BUTTONS
     for button in tights_buttons:
-        pygame.draw.rect(screen, (200, 100, 0), button)
+        pygame.draw.rect(screen, (117, 91, 72), button)
     
     # UPDATE SCREEN
     pygame.display.update()
